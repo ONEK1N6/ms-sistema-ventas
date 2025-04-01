@@ -6,27 +6,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
-@Table(name="producto")
+@Table(name = "productos")
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
-    @Column(name="Nombre")
+    @Column(name = "nombre")
     private String nombre;
-    @Column(name="categoria")
-    private String categoria;
-    @Column(name="Precio")
+    @Column(name = "precio")
     private double precio;
-    @Column(name="Stock")
-    private String stock;
-    @Column(name="estado")
-    private char estado;
+
+    // Relación muchos a muchos con Pedido
+    @ManyToMany(mappedBy = "productos")
+    private Set<Pedido> pedidos;
 }

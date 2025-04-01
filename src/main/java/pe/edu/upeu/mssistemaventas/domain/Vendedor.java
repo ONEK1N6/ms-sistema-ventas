@@ -6,19 +6,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
-@Table(name="vendedor")
+@Table(name = "vendedores")
 public class Vendedor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
-    @Column(name="Nombre")
+
+    @Column(name = "nombre")
     private String nombre;
-    @Column(name="estado")
-    private char estado;
+
+    // Relación uno a muchos con Pedido
+    @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Pedido> pedidos;
 }

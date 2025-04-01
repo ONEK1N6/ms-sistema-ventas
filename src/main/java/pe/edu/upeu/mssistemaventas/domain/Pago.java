@@ -6,24 +6,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
-@Table(name="pago")
+@Table(name = "pagos")
 public class Pago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
-    @Column(name="Monto")
+    @Column(name = "monto")
     private double monto;
-    @Column(name = "Fecha_Pago")
-    @Temporal(TemporalType.DATE)
-    private Date fechapago;
-    @Column(name="estado")
-    private char estado;
+    @Column(name = "fecha_pago")
+    private String fechaPago;
+
+    // Relación muchos a uno con Pedido
+    @ManyToOne
+    @JoinColumn(name = "pedido_id", referencedColumnName = "id")
+    private Pedido pedido;
 }

@@ -6,24 +6,39 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
-@Table(name="pedido")
+@Table(name = "pedidos")
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
-    @Column(name = "Fecha_Pedido")
-    @Temporal(TemporalType.DATE)
-    private Date fechapedido;
-    @Column(name="Total")
-    private double total;
-    @Column(name="estado")
-    private char estado;
+
+    @Column(name = "fecha")
+    private String fecha;
+
+    // Relación muchos a uno con Cliente
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
+    private Cliente cliente;
+
+    // Relación muchos a uno con Vendedor (CORREGIDO)
+    @ManyToOne
+    @JoinColumn(name = "vendedor_id") // Clave foránea en Pedido
+    private Vendedor vendedor;
+
+    // Relación muchos a muchos con Producto (a través de Detalle_Pedido)
+    @ManyToMany
+    @JoinTable(
+            name = "detalle_pedido",
+            joinColumns = @JoinColumn(name = "pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "producto_id")
+    )
+    private Set<Producto> productos;
 }
